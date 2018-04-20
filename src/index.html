@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>config</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+  <script>
+    (async () => {
+      const isDebugMode = localStorage.getItem("__DEBUG__") === "true";
+      const res = await fetch("http://localhost:3000/todos");
+      const todos = await res.json();
+
+      // we should avoid console.log in production code but
+      // with a toggle we can bend this rule a bit
+      if (isDebugMode) console.log(todos);
+
+      const liArray = todos.map(todo => `<li>${todo}</li>`);
+
+      if (isDebugMode) console.log(liArray);
+
+      const list = `<ul>${liArray.join("")}</ul>`;
+
+      if (isDebugMode) console.log(list);
+
+      document.body.insertAdjacentHTML("beforeend", list);
+    })();  
+  </script>
+</body>
+
+</html>
